@@ -35,12 +35,12 @@ void initCorePeripherals(void)
 
 void initAfterJump(void)
 {
-    volatile uint32_t* VectorTable = (volatile uint32_t*)0x20000000;
-    uint32_t vector_index = 0;
-    for (vector_index = 0; vector_index < 48; vector_index++) {
-        VectorTable[vector_index] = *(__IO uint32_t*)(APPLICATION_ADDRESS + (vector_index << 2)); // no VTOR on cortex-MO so
-                                                                                                  // need to copy vector table
-    }
+    // volatile uint32_t* VectorTable = (volatile uint32_t*)0x20000000;
+    // uint32_t vector_index = 0;
+    // for (vector_index = 0; vector_index < 48; vector_index++) {
+    //     VectorTable[vector_index] = *(__IO uint32_t*)(APPLICATION_ADDRESS + (vector_index << 2)); // no VTOR on cortex-MO so
+    //                                                                                               // need to copy vector table
+    // }
     /* Enable the SYSCFG peripheral clock*/
     do {
         volatile uint32_t tmpreg;
@@ -598,9 +598,10 @@ void enableCorePeripherals()
 #ifndef BRUSHED_MODE
     LL_TIM_EnableCounter(COM_TIMER); // commutation_timer priority 0
     LL_TIM_GenerateEvent_UPDATE(COM_TIMER);
-    LL_TIM_EnableIT_UPDATE(COM_TIMER);
-    COM_TIMER->DIER &= ~((0x1UL << (0U))); // disable for now.
-#endif
+    // LL_TIM_EnableIT_UPDATE(COM_TIMER);
+    // COM_TIMER->DIER &= ~((0x1UL << (0U))); // disable for now.
+    COM_TIMER->DIER = (COM_TIMER->DIER & ~TIM_DIER_UIE) | (0 ? TIM_DIER_UIE : 0);
+    #endif
     LL_TIM_EnableCounter(UTILITY_TIMER);
     LL_TIM_GenerateEvent_UPDATE(UTILITY_TIMER);
     //

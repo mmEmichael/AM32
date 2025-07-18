@@ -43,6 +43,13 @@
 // #define USE_ADC_INPUT
 // #define USE_ALKAS_DEBUG_LED
 
+#ifdef APM32_F051
+#define FILE_NAME				"APM32_F051"
+#define FIRMWARE_NAME           "APM32_F051  "
+#define DEAD_TIME               45
+#define HARDWARE_GROUP_F0_A
+#define USE_SERIAL_TELEMETRY
+#endif
 
 #ifdef LUMENIER_12S_F421
 #define FIRMWARE_NAME "Lumenier 12s"
